@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🎯 Kuis Seru Bersama Lulu!</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: #87CEEB;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+
+  .page {
+    width: 500px;
+    min-height: 780px;
+    border-radius: 24px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.25);
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(180deg, #C9F0FF 0%, #E8FFF0 50%, #C8F5C0 75%, #A0E090 100%);
+  }
+
+  .sky-deco {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 170px;
+    background: linear-gradient(180deg,#6BC5F8 0%,#C9F0FF 100%);
+  }
+
+  .sun {
+    position: absolute;
+    top: 16px; right: 20px;
+    width: 60px; height: 60px;
+    background: radial-gradient(circle, #FFE566, #FFB800);
+    border-radius: 50%;
+    box-shadow: 0 0 0 8px rgba(255,200,0,0.25), 0 0 0 16px rgba(255,200,0,0.12);
+    animation: sunPulse 3s ease-in-out infinite;
+    z-index: 2;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 28px;
+  }
+  @keyframes sunPulse {
+    0%,100% { transform: scale(1); }
+    50% { transform: scale(1.08); }
+  }
+
+  .cloud {
+    position: absolute;
+    background: white;
+    border-radius: 50px;
+    opacity: 0.9;
+    z-index: 1;
+  }
+
+  /* Page header */
+  .page-header {
+    position: relative;
+    z-index: 3;
+    padding: 16px 20px 8px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .header-badge {
+    background: #9B59B6;
+    color: white;
+    font-family: 'Fredoka One', cursive;
+    font-size: 18px;
+    padding: 6px 18px;
+    border-radius: 20px;
+    border: 3px solid white;
+    box-shadow: 0 3px 8px rgba(100,0,180,0.3);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .page-number {
+    background: #9B59B6;
+    color: white;
+    font-family: 'Fredoka One', cursive;
+    font-size: 24px;
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 3px solid white;
+    box-shadow: 0 3px 8px rgba(100,0,180,0.35);
+  }
+
+  /* Score panel */
+  .score-panel {
+    background: linear-gradient(135deg, #FFE44D, #FFB800);
+    border-radius: 16px;
+    padding: 10px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border: 3px solid #FFD700;
+    box-shadow: 0 3px 10px rgba(255,180,0,0.3);
+    margin: 0 16px 6px;
+    position: relative; z-index: 3;
+  }
+  .score-label {
+    font-family: 'Fredoka One', cursive;
+    font-size: 15px;
+    color: #7A4500;
+  }
+  .score-value {
+    font-family: 'Fredoka One', cursive;
+    font-size: 26px;
+    color: #7A4500;
+  }
+  .score-stars {
+    font-size: 20px;
+    letter-spacing: 2px;
+  }
+
+  /* Quiz content */
+  .kuis-content {
+    position: relative;
+    z-index: 3;
+    padding: 6px 16px 0;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .kuis-intro {
+    background: white;
+    border-radius: 16px;
+    padding: 10px 14px;
+    border: 3px solid #FFD700;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .lulu-mini { font-size: 38px; flex-shrink: 0; }
+  .kuis-intro p {
+    font-size: 13px;
+    font-weight: 700;
+    color: #444;
+    line-height: 1.4;
+  }
+  .kuis-intro p span { color: #FF6B9D; }
+
+  .question-card {
+    background: white;
+    border-radius: 18px;
+    padding: 14px;
+    border: 3px solid #E8E8E8;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+  }
+
+  .question-number {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: linear-gradient(135deg, #FF6B9D, #FF8E53);
+    color: white;
+    font-family: 'Fredoka One', cursive;
+    font-size: 13px;
+    padding: 3px 12px;
+    border-radius: 12px;
+    margin-bottom: 8px;
+  }
+
+  .question-text {
+    font-size: 14px;
+    font-weight: 800;
+    color: #333;
+    margin-bottom: 10px;
+    line-height: 1.4;
+  }
+
+  .options-grid {
+    display: grid;
+    gap: 7px;
+  }
+  .options-grid.grid-2 { grid-template-columns: 1fr 1fr; }
+  .options-grid.grid-3 { grid-template-columns: 1fr 1fr 1fr; }
+
+  .option-btn {
+    background: #F8F9FF;
+    border: 3px solid #E0E0FF;
+    border-radius: 14px;
+    padding: 8px 6px;
+    cursor: pointer;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 800;
+    font-size: 12px;
+    color: #444;
+    text-align: center;
+    transition: all 0.2s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    line-height: 1.3;
+  }
+  .option-btn .opt-emoji { font-size: 28px; }
+  .option-btn:hover:not(:disabled) { transform: scale(1.04); border-color: #9B8FFF; background: #F0EEFF; }
+  .option-btn.correct {
+    background: #E8FFF0;
+    border-color: #4CAF50;
+    color: #2E7D32;
+    animation: correctPop 0.4s ease;
+  }
+  .option-btn.wrong {
+    background: #FFF0F0;
+    border-color: #F44336;
+    color: #C62828;
+    animation: wrongShake 0.4s ease;
+  }
+  @keyframes correctPop {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.12); }
+    100% { transform: scale(1); }
+  }
+  @keyframes wrongShake {
+    0%,100% { transform: translateX(0); }
+    25% { transform: translateX(-6px); }
+    75% { transform: translateX(6px); }
+  }
+
+  .feedback-text {
+    margin-top: 7px;
+    font-size: 13px;
+    font-weight: 800;
+    padding: 6px 10px;
+    border-radius: 10px;
+    text-align: center;
+    display: none;
+  }
+  .feedback-text.correct { background: #E8FFF0; color: #2E7D32; display: block; }
+  .feedback-text.wrong   { background: #FFF0F0; color: #C62828; display: block; }
+
+  /* Result screen */
+  .result-screen {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    gap: 16px;
+    flex: 1;
+    text-align: center;
+    position: relative; z-index: 3;
+  }
+  .result-screen.show { display: flex; }
+  .result-emoji { font-size: 80px; animation: bounceIn 0.6s ease; }
+  @keyframes bounceIn {
+    0% { transform: scale(0); }
+    60% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+  }
+  .result-title {
+    font-family: 'Fredoka One', cursive;
+    font-size: 28px;
+    color: #FF6B9D;
+  }
+  .result-score {
+    font-size: 18px;
+    font-weight: 800;
+    color: #555;
+  }
+  .result-message {
+    background: white;
+    border-radius: 16px;
+    padding: 14px;
+    font-size: 14px;
+    font-weight: 700;
+    color: #444;
+    line-height: 1.6;
+    border: 3px solid #FFD700;
+  }
+  .retry-btn {
+    background: linear-gradient(135deg, #FF6B9D, #FF4081);
+    color: white;
+    border: none;
+    border-radius: 20px;
+    font-family: 'Fredoka One', cursive;
+    font-size: 18px;
+    padding: 12px 32px;
+    cursor: pointer;
+    box-shadow: 0 5px 0 #C2185B;
+    transition: all 0.15s;
+  }
+  .retry-btn:hover { transform: translateY(-2px); box-shadow: 0 7px 0 #C2185B; }
+  .retry-btn:active { transform: translateY(2px); box-shadow: 0 3px 0 #C2185B; }
+
+  .selesai-btn {
+    background: linear-gradient(135deg, #9B59B6, #7D3C98);
+    color: white;
+    border: none;
+    border-radius: 20px;
+    font-family: 'Fredoka One', cursive;
+    font-size: 18px;
+    padding: 12px 32px;
+    cursor: pointer;
+    box-shadow: 0 5px 0 #5B2C6F;
+    transition: all 0.15s;
+    width: fit-content;
+  }
+  .selesai-btn:hover { transform: translateY(-2px); box-shadow: 0 7px 0 #5B2C6F; }
+  .selesai-btn:active { transform: translateY(2px); box-shadow: 0 3px 0 #5B2C6F; }
+
+  /* Bottom nav */
+  .page-nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 12px 16px;
+    position: relative;
+    z-index: 5;
+  }
+
+  .nav-btn {
+    background: #9B59B6;
+    color: white;
+    border: 3px solid #7D3C98;
+    border-radius: 20px;
+    font-family: 'Fredoka One', cursive;
+    font-size: 16px;
+    padding: 10px 32px;
+    cursor: pointer;
+    box-shadow: 0 4px 0 #5B2C6F;
+    transition: all 0.15s;
+  }
+  .nav-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 0 #5B2C6F; }
+  .nav-btn:active { transform: translateY(2px); box-shadow: 0 2px 0 #5B2C6F; }
+
+  @media (max-width: 540px) {
+    .page { width: 100%; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+  <div class="sky-deco"></div>
+  <div class="sun">😊</div>
+
+  <!-- Clouds -->
+  <div class="cloud" style="width:70px;height:22px;top:35px;left:30px;opacity:0.85;">
+    <div style="position:absolute;width:28px;height:28px;background:white;border-radius:50%;top:-14px;left:10px;"></div>
+    <div style="position:absolute;width:20px;height:20px;background:white;border-radius:50%;top:-10px;left:28px;"></div>
+  </div>
+  <div class="cloud" style="width:55px;height:18px;top:60px;left:90px;opacity:0.7;">
+    <div style="position:absolute;width:22px;height:22px;background:white;border-radius:50%;top:-11px;left:8px;"></div>
+  </div>
+
+  <!-- Header -->
+  <div class="page-header">
+    <div class="header-badge">🎯 Kuis Seru Lulu!</div>
+    <div class="page-number">18</div>
+  </div>
+
+  <!-- Score panel -->
+  <div class="score-panel">
+    <div>
+      <div class="score-label">⭐ Nilai Kamu</div>
+      <div class="score-value" id="scoreDisplay">0 / 5</div>
+    </div>
+    <div class="score-stars" id="starsDisplay">⬜⬜⬜⬜⬜</div>
+  </div>
+
+  <!-- Quiz content -->
+  <div class="kuis-content" id="quizContent">
+
+    <div class="kuis-intro">
+      <div class="lulu-mini">🎉</div>
+      <p>Hore! Yuk jawab kuis Lulu! Pilih jawaban yang <span>BENAR</span> ya. Kamu pasti bisa!</p>
+    </div>
+
+    <!-- Q1 -->
+    <div class="question-card" id="q1">
+      <div class="question-number">❓ Soal 1 dari 5</div>
+      <div class="question-text">Mana cara cuci tangan yang BENAR? 🙌</div>
+      <div class="options-grid grid-3">
+        <button class="option-btn" onclick="answer(this,'q1','wrong')">
+          <span class="opt-emoji">💨</span>Tiup tangan saja
+        </button>
+        <button class="option-btn" onclick="answer(this,'q1','correct')">
+          <span class="opt-emoji">🧼💧</span>Pakai sabun &amp; air
+        </button>
+        <button class="option-btn" onclick="answer(this,'q1','wrong')">
+          <span class="opt-emoji">👕</span>Lap di baju
+        </button>
+      </div>
+      <div class="feedback-text" id="fb-q1"></div>
+    </div>
+
+    <!-- Q2 -->
+    <div class="question-card" id="q2">
+      <div class="question-number">❓ Soal 2 dari 5</div>
+      <div class="question-text">Makanan mana yang bagus untuk tubuh Lulu? 🍽️</div>
+      <div class="options-grid grid-2">
+        <button class="option-btn" onclick="answer(this,'q2','wrong')">
+          <span class="opt-emoji">🍟🥤</span>Kentang goreng &amp; soda
+        </button>
+        <button class="option-btn" onclick="answer(this,'q2','correct')">
+          <span class="opt-emoji">🥦🍎🥚</span>Sayur, buah &amp; telur
+        </button>
+      </div>
+      <div class="feedback-text" id="fb-q2"></div>
+    </div>
+
+    <!-- Q3 -->
+    <div class="question-card" id="q3">
+      <div class="question-number">❓ Soal 3 dari 5</div>
+      <div class="question-text">Berapa kali Lulu harus sikat gigi setiap hari? 🪥</div>
+      <div class="options-grid grid-3">
+        <button class="option-btn" onclick="answer(this,'q3','wrong')">
+          <span class="opt-emoji">1️⃣</span>1 kali
+        </button>
+        <button class="option-btn" onclick="answer(this,'q3','correct')">
+          <span class="opt-emoji">2️⃣</span>2 kali
+        </button>
+        <button class="option-btn" onclick="answer(this,'q3','wrong')">
+          <span class="opt-emoji">5️⃣</span>5 kali
+        </button>
+      </div>
+      <div class="feedback-text" id="fb-q3"></div>
+    </div>
+
+    <!-- Q4 -->
+    <div class="question-card" id="q4">
+      <div class="question-number">❓ Soal 4 dari 5</div>
+      <div class="question-text">Gerak apa yang membuat kita BERPINDAH tempat? 🏃</div>
+      <div class="options-grid grid-2">
+        <button class="option-btn" onclick="answer(this,'q4','correct')">
+          <span class="opt-emoji">🏃‍♀️</span>Gerak Lokomotor<br><small>(berlari, melompat)</small>
+        </button>
+        <button class="option-btn" onclick="answer(this,'q4','wrong')">
+          <span class="opt-emoji">🙆‍♀️</span>Gerak Non-Lokomotor<br><small>(di tempat)</small>
+        </button>
+      </div>
+      <div class="feedback-text" id="fb-q4"></div>
+    </div>
+
+    <!-- Q5 -->
+    <div class="question-card" id="q5">
+      <div class="question-number">❓ Soal 5 dari 5</div>
+      <div class="question-text">Berapa lama Lulu harus tidur malam yang cukup? 🌙</div>
+      <div class="options-grid grid-3">
+        <button class="option-btn" onclick="answer(this,'q5','wrong')">
+          <span class="opt-emoji">3️⃣</span>3 jam
+        </button>
+        <button class="option-btn" onclick="answer(this,'q5','wrong')">
+          <span class="opt-emoji">5️⃣</span>5 jam
+        </button>
+        <button class="option-btn" onclick="answer(this,'q5','correct')">
+          <span class="opt-emoji">9️⃣</span>9 jam
+        </button>
+      </div>
+      <div class="feedback-text" id="fb-q5"></div>
+    </div>
+
+  </div>
+
+  <!-- Result screen -->
+  <div class="result-screen" id="resultScreen">
+    <div class="result-emoji" id="resultEmoji">🏆</div>
+    <div class="result-title" id="resultTitle">Hebat sekali!</div>
+    <div class="result-score" id="resultScore">Kamu dapat nilai 5 dari 5!</div>
+    <div class="result-message" id="resultMessage">
+      Wah, Lulu bangga sama kamu! 🌟 Kamu sudah mengerti semua rahasia hidup sehat!
+    </div>
+    <div style="display:flex; flex-direction:column; gap:14px; width:100%; align-items:center; margin-top:6px;">
+      <button class="retry-btn" onclick="resetQuiz()">🔄 Ulangi Kuis!</button>
+      <button class="selesai-btn" onclick="window.close()">✅ Kuis Selesai</button>
+    </div>
+  </div>
+
+  <!-- Nav removed -->
+</div>
+
+<script>
+  const answers = {};
+  const correct = { q1: false, q2: false, q3: false, q4: false, q5: false };
+  let score = 0;
+  const feedbacks = {
+    q1: { correct: '✅ Benar! Cuci tangan pakai sabun dan air mengalir agar kuman hilang!', wrong: '❌ Bukan itu ya! Cuci tangan harus pakai sabun dan air bersih.' },
+    q2: { correct: '✅ Pintar! Sayur, buah, dan telur memberi gizi yang lengkap untuk tubuh!', wrong: '❌ Makanan itu kurang sehat. Pilih sayur, buah, dan lauk bergizi ya!' },
+    q3: { correct: '✅ Betul! 2 kali sehari: pagi setelah sarapan dan malam sebelum tidur!', wrong: '❌ Kurang tepat. Sikat gigi 2 kali sehari ya supaya gigi kuat!' },
+    q4: { correct: '✅ Keren! Gerak Lokomotor membuat kita berpindah tempat seperti berlari!', wrong: '❌ Gerak Non-Lokomotor dilakukan di tempat. Yang berpindah itu Lokomotor!' },
+    q5: { correct: '✅ Hebat! Tidur 9 jam biar badan segar dan otak makin pintar besok!', wrong: '❌ Kurang ya! Anak TK butuh tidur malam sekitar 9 jam biar sehat.' },
+  };
+
+  function answer(btn, qId, type) {
+    if (answers[qId]) return;
+    answers[qId] = true;
+
+    const allBtns = btn.closest('.options-grid').querySelectorAll('.option-btn');
+    allBtns.forEach(b => b.disabled = true);
+
+    const fb = document.getElementById('fb-' + qId);
+
+    if (type === 'correct') {
+      btn.classList.add('correct');
+      correct[qId] = true;
+      score++;
+      fb.textContent = feedbacks[qId].correct;
+      fb.className = 'feedback-text correct';
+    } else {
+      btn.classList.add('wrong');
+      fb.textContent = feedbacks[qId].wrong;
+      fb.className = 'feedback-text wrong';
+      allBtns.forEach(b => {
+        if (b.onclick?.toString().includes("'correct'")) b.classList.add('correct');
+      });
+    }
+
+    updateScore();
+
+    if (Object.keys(answers).length === 5) {
+      setTimeout(showResult, 1200);
+    }
+  }
+
+  function updateScore() {
+    document.getElementById('scoreDisplay').textContent = score + ' / 5';
+    document.getElementById('starsDisplay').textContent = '⭐'.repeat(score) + '⬜'.repeat(5 - score);
+  }
+
+  function showResult() {
+    document.getElementById('quizContent').style.display = 'none';
+    document.getElementById('resultScreen').classList.add('show');
+
+    let emoji, title, msg;
+    if (score === 5) {
+      emoji = '🏆'; title = 'Luar Biasa!';
+      msg = 'Wah, kamu dapat nilai sempurna! 🌟 Lulu bangga sama kamu! Kamu sudah mengerti semua rahasia hidup sehat. Terus praktikkan setiap hari ya!';
+    } else if (score >= 3) {
+      emoji = '🌟'; title = 'Bagus Sekali!';
+      msg = 'Kamu hampir sempurna! 😊 Coba lagi untuk jawaban yang salah ya. Semangat terus belajar bersama Lulu!';
+    } else {
+      emoji = '💪'; title = 'Ayo Coba Lagi!';
+      msg = 'Tidak apa-apa! 🤗 Belajar dulu bareng Lulu dari awal, lalu coba kuis ini lagi. Kamu pasti bisa!';
+    }
+
+    document.getElementById('resultEmoji').textContent = emoji;
+    document.getElementById('resultTitle').textContent = title;
+    document.getElementById('resultScore').textContent = 'Nilai kamu: ' + score + ' dari 5! ' + '⭐'.repeat(score);
+    document.getElementById('resultMessage').textContent = msg;
+  }
+
+  function resetQuiz() {
+    Object.keys(answers).forEach(k => delete answers[k]);
+    Object.keys(correct).forEach(k => correct[k] = false);
+    score = 0;
+    updateScore();
+
+    document.querySelectorAll('.option-btn').forEach(b => {
+      b.classList.remove('correct','wrong');
+      b.disabled = false;
+    });
+    document.querySelectorAll('.feedback-text').forEach(fb => {
+      fb.className = 'feedback-text';
+      fb.textContent = '';
+    });
+
+    document.getElementById('quizContent').style.display = 'flex';
+    document.getElementById('resultScreen').classList.remove('show');
+  }
+</script>
+
+</body>
+</html>
